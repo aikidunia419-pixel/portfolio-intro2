@@ -1,73 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio Intro</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: radial-gradient(circle at center, #0a192f, #000);
-      color: #fff;
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      opacity: 0;
-      animation: fadeIn 1.5s forwards;
-    }
-    .btn {
-      padding: 10px 25px;
-      background: transparent;
-      border: 2px solid #fff;
-      border-radius: 50px;
-      color: #fff;
-      font-weight: bold;
-      cursor: pointer;
-      opacity: 0;
-      animation: fadeIn 1.5s forwards 2s;
-      position: relative;
-    }
-    .cursor {
-      width: 20px;
-      height: 30px;
-      border: 2px solid white;
-      border-radius: 5px;
-      position: absolute;
-      top: -80px;
-      left: -60px;
-      opacity: 0;
-      animation: moveMouse 3s ease-in-out forwards 2s;
-    }
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-    @keyframes moveMouse {
-      0% { opacity: 0; transform: translate(-100px, -100px); }
-      10% { opacity: 1; transform: translate(0, 0); }
-      50% { transform: translate(80px, 30px); }
-      70% { transform: translate(85px, 35px) scale(0.9); }
-      100% { opacity: 0; transform: translate(85px, 35px) scale(0.9); }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Intro</title>
+<style>
+  /* Body & font */
+  body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at center, #0a192f, #000);
+    overflow: hidden;
+    color: #fff;
+  }
+
+  /* Abstract shapes */
+  .shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: float 10s infinite linear;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-100px) rotate(180deg); }
+    100% { transform: translateY(0) rotate(360deg); }
+  }
+
+  /* Typewriter text */
+  h1 {
+    font-size: 2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid #fff;
+    width: 0;
+    animation: typing 2.5s steps(28) forwards, blink 0.7s step-end infinite alternate;
+    z-index: 10;
+  }
+
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 280px; }
+  }
+  @keyframes blink {
+    50% { border-color: transparent; }
+  }
+
+  /* Yes Button */
+  .btn {
+    margin-top: 30px;
+    padding: 12px 30px;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    background: transparent;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 0;
+    animation: fadeIn 1.5s forwards 3s;
+    position: relative;
+    z-index: 10;
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  /* Fake cursor */
+  .cursor {
+    width: 20px;
+    height: 30px;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    opacity: 0;
+    z-index: 10;
+  }
+</style>
 </head>
 <body>
-  <h1>Ready to view my portfolio?</h1>
-  <button class="btn">Yes</button>
+  <!-- Abstract shapes -->
+  <div class="shape" style="width:100px;height:100px;top:10%;left:15%;background:#ff0055;"></div>
+  <div class="shape" style="width:150px;height:150px;top:60%;left:70%;background:#00ffff;"></div>
+  <div class="shape" style="width:80px;height:80px;top:40%;left:50%;background:#ffdd00;"></div>
+
+  <!-- Main content -->
+  <div style="text-align:center;position:relative;z-index:10;">
+    <h1>Ready to view my portfolio?</h1>
+    <button class="btn">Yes</button>
+  </div>
+
+  <!-- Fake cursor -->
   <div class="cursor"></div>
 
-  <script>
-    // Redirect automatically after animation
+<script>
+  const cursor = document.querySelector('.cursor');
+  const btn = document.querySelector('.btn');
+
+  function moveCursor(x, y, duration = 500) {
+    return new Promise(resolve => {
+      cursor.style.transition = `all ${duration}ms ease-in-out`;
+      cursor.style.opacity = 1;
+      cursor.style.transform = `translate(${x}px, ${y}px)`;
+      setTimeout(resolve, duration);
+    });
+  }
+
+  function clickEffect() {
+    cursor.style.transform += ' scale(0.9)';
+    setTimeout(() => cursor.style.transform = cursor.style.transform.replace(' scale(0.9)', ''), 150);
+  }
+
+  async function animateCursorClick() {
+    const rect = btn.getBoundingClientRect();
+    // Start from top-left
+    await moveCursor(0, 0, 500);
+    // Move near button
+    await moveCursor(rect.left + window.scrollX - 20, rect.top + window.scrollY - 20, 1000);
+    // Move to center and click
+    await moveCursor(rect.left + window.scrollX + rect.width/2 - 10, rect.top + window.scrollY + rect.height/2 - 15, 700);
+    clickEffect();
     setTimeout(() => {
-      window.location.href = "https://muhammad-designer.my.canva.site/";
-    }, 5500); // redirects after 5.5 seconds
-  </script>
+      document.body.style.opacity = 0;
+      setTimeout(() => {
+        window.location.href = "https://muhammad-designer.my.canva.site/";
+      }, 500);
+    }, 300);
+  }
+
+  // Start animation after typewriter & button appear
+  setTimeout(animateCursorClick, 4000);
+</script>
 </body>
 </html>
