@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Intro</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: radial-gradient(circle at center, #0a192f, #000);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards;
+    }
+    .btn {
+      padding: 10px 25px;
+      background: transparent;
+      border: 2px solid #fff;
+      border-radius: 50px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards 2s;
+      position: relative;
+    }
+    .cursor {
+      width: 20px;
+      height: 30px;
+      border: 2px solid white;
+      border-radius: 5px;
+      position: absolute;
+      top: -80px;
+      left: -60px;
+      opacity: 0;
+      animation: moveMouse 3s ease-in-out forwards 2s;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    @keyframes moveMouse {
+      0% { opacity: 0; transform: translate(-100px, -100px); }
+      10% { opacity: 1; transform: translate(0, 0); }
+      50% { transform: translate(80px, 30px); }
+      70% { transform: translate(85px, 35px) scale(0.9); }
+      100% { opacity: 0; transform: translate(85px, 35px) scale(0.9); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Ready to view my portfolio?</h1>
+  <button class="btn">Yes</button>
+  <div class="cursor"></div>
+
+  <script>
+    // Redirect automatically after animation
+    setTimeout(() => {
+      window.location.href = "https://muhammad-designer.my.canva.site/";
+    }, 5500); // redirects after 5.5 seconds
+  </script>
+</body>
+</html>
